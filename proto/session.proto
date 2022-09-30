@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/abba5/grpc-unary-vs-http1-1/protos";
+
+message Request {
+	string tid = 1;
+	string sid = 2;
+}
+
+message Response {
+	string tid = 1;
+	string sid = 2;
+}
+
+service Session {
+  rpc ValidateSession (Request) returns (Response) {}
+}
