@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	proto "github.com/abba5/grpc-unary-vs-http1-1/proto"
 	"google.golang.org/grpc"
@@ -16,6 +17,7 @@ type server struct {
 
 func (s *server) ValidateSession(_ context.Context, req *proto.Request) (*proto.Response, error) {
 	// log.Printf("tid: %v", req.GetTid())
+	_ = time.Now()
 	return &proto.Response{
 		Tid: "one",
 		Sid: "two",
