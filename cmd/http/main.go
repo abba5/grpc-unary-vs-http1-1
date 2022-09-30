@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/abba5/grpc-unary-vs-http1-1/model"
 )
@@ -26,6 +27,7 @@ func getSession() http.HandlerFunc {
 			return
 		}
 
+		_ = time.Now()
 		resp := model.Response{
 			Tid: "one",
 			Sid: "two",
