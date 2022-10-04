@@ -1,0 +1,30 @@
+version: '3.8'
+ 
+services:
+  grpcserver:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: grpcserver
+    ports:
+      - "8080:8080"
+    container_name: grpcserver
+ 
+  httpserver:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: httpserver
+    ports:
+      - "8081:8081"
+    container_name: httpserver
+
+  clientserver:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: clientserver
+    ports:
+      - "8082:8081"
+    container_name: clientserver
+

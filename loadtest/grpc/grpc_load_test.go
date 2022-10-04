@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"sync"
 	"testing"
 	"time"
 
@@ -52,5 +53,31 @@ func Benchmark_grpc_some(b *testing.B) {
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
+	}
+}
+
+func callTheServer() {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	_, err := c.ValidateSession(ctx, &proto.Request{
+		Tid: "this is tid",
+		Sid: "this is sid",
+	})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+}
+
+func Benchmark_grpc_multi_go(b *testing.B) {
+	for i := 0; i < b.N; i += 1 {
+		var wg sync.WaitGroup
+		wg.Add(50)
+		for c := 0; c < 50; c += 1 {
+			go func() {
+				callTheServer()
+				wg.Done()
+			}()
+		}
+		wg.Wait()
 	}
 }
